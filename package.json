@@ -1,0 +1,16 @@
+{
+  "name": "tiket-event-api",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "tiket-event-api"
+  },
+  "license": "ISC",
+  "author": "radewan",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "jest"
+  }
+}
