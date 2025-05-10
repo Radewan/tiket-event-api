@@ -4,13 +4,28 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "tiket-event-api"
+    "url": "https://github.com/Radewan/tiket-event-api"
   },
   "license": "ISC",
   "author": "radewan",
-  "type": "module",
-  "main": "src/main.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.7.0",
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "winston": "^3.17.0",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "@types/express": "^5.0.1",
+    "eslint": "^9.26.0",
+    "globals": "^16.1.0",
+    "prisma": "^6.7.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.0"
   }
 }
