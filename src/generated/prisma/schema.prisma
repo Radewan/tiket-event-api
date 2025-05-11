@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  username String  @id @db.VarChar(255)
+  email    String  @unique @db.VarChar(255)
+  password String  @db.VarChar(255)
+  token    String? @db.VarChar(255)
+
+  events Event[]
+
+  @@map("users")
+}
+
+model Event {
+  id            Int      @id @default(autoincrement())
+  user_username String   @db.VarChar(255)
+  title         String   @db.VarChar(255)
+  description   String   @db.Text()
+  location      String   @db.VarChar(255)
+  image         String   @db.VarChar(255)
+  startDate     DateTime @db.DateTime(6)
+  endDate       DateTime @db.DateTime(6)
+
+  user User @relation(fields: [user_username], references: [username])
+
+  tickets Ticket[]
+
+  @@map("events")
+}
+
+model Ticket {
+  id       Int    @id @default(autoincrement())
+  event_id Int
+  type     String @db.VarChar(255)
+  quantity Int
+  sold     Int
+  price    Float
+
+  event Event @relation(fields: [event_id], references: [id])
+
+  @@map("tickets")
+}
