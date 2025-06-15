@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://spec.openapis.org/oas/3.1/schema/2022-10-07
+openapi: 3.1.0
+
+info:
+  title: Tiket Event
+  version: 1.0.0
+  description: OpenAPI untuk application Tiket Event
+  contact:
+    email: ranggadendi6@gmail.com
+    name: radewan
+    url: https://radewan.github.io/
+
+servers:
+  - url: http://localhost:3000/api
+
+paths:
+  /user:
+    post:
+      tags:
+        - User
+      summary: Create User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUser"
+      responses:
+        201:
+          description: Create User Success
+
+  /user/login:
+    post:
+      tags:
+        - User
+      summary: Login User
+      responses:
+        200:
+          description: Login User Success
+
+  /user/{userId}:
+    put:
+      tags:
+        - User
+      summary: Update User
+      responses:
+        200:
+          description: Update User Success
+components:
+  schemas:
+    CreateUser:
+      # type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
