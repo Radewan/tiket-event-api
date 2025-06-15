@@ -18,7 +18,101 @@ model User{
   name String @unique @db.VarChar(255)
   email String @unique @db.VarChar(255)
   password String @db.VarChar(255)
-  email_verify_at DateTime? @db.DateTime()
+  is_admin Boolean @default(false) 
+  created_at DateTime @default(now()) 
+  updated_at DateTime @updatedAt
+  deleted_at DateTime? 
+
+  events Event[]
+  comments Comment[]
+  transactions Transaction[]
 
   @@map("users")
+}
+
+model Event{
+  id Int @id @default(autoincrement())
+  user_id Int
+  banner String @db.VarChar(255)
+  title String @db.VarChar(255)
+  description String @db.Text
+  location String @db.VarChar(255)
+  date_time_start DateTime
+  date_time_end DateTime
+  status StatusEvent
+  created_at DateTime @default(now()) 
+  updated_at DateTime @updatedAt
+  deleted_at DateTime? 
+
+  user User @relation(fields: [user_id],references: [id])
+
+  tickets Ticket[]
+  comments Comment[]
+
+  @@map("events")
+}
+
+model Ticket{
+  id Int @id @default(autoincrement())
+  event_id Int
+  quantity Int @db.UnsignedInt
+  available Int @db.UnsignedInt
+  price Decimal @db.Decimal(10,2)
+  class String @db.VarChar(255)
+  created_at DateTime @default(now()) 
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  event Event @relation(fields: [event_id], references: [id])
+
+  transactions Transaction[]
+
+
+  @@map("tickets")
+}
+
+model Comment{
+  id Int @id @default(autoincrement())
+  user_id Int
+  event_id Int
+  comment String @db.Text
+  created_at DateTime @default(now()) 
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  user User @relation(fields: [user_id], references: [id])
+  event Event @relation(fields: [event_id], references: [id])
+
+  @@map("comments")
+}
+
+model Transaction{
+  id Int @id @default(autoincrement())
+  user_id Int
+  ticket_id Int
+  code_transaction String @db.VarChar(255)
+  code_ticket String @db.VarChar(255)
+  status StatusTransaction
+  total_price Decimal @db.Decimal(10,2)
+  created_at DateTime @default(now()) 
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  user User @relation(fields: [user_id], references: [id])
+  ticket Ticket @relation(fields: [ticket_id], references: [id])
+
+  @@map("transactions")
+}
+
+enum StatusEvent{
+  UPCOMING 
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+enum StatusTransaction{
+  PENDING
+  SUCCESS
+  FAILED
 }
